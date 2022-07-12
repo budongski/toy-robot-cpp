@@ -1,0 +1,79 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup>
+    <Filter Include="Resource Files">
+      <UniqueIdentifier>{67DA6AB6-F800-4c08-8B7A-83BB121AAD01}</UniqueIdentifier>
+      <Extensions>rc;ico;cur;bmp;dlg;rc2;rct;bin;rgs;gif;jpg;jpeg;jpe;resx;tiff;tif;png;wav;mfcribbon-ms</Extensions>
+    </Filter>
+    <Filter Include="toyrobotsim">
+      <UniqueIdentifier>{387ac54a-0bd8-4207-81c8-2102c15713b6}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="toyrobotsim\model">
+      <UniqueIdentifier>{8d3de865-f6f8-47c4-a686-79e1b7fcfbc7}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="toyrobotsim\control">
+      <UniqueIdentifier>{fbd4276b-7b90-4a81-94a7-10e15481a527}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="toyrobotsim\request">
+      <UniqueIdentifier>{c879fac2-056f-4ba0-a790-70f2712f11af}</UniqueIdentifier>
+    </Filter>
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="..\src\toyrobotsim\request\boardcommands.h">
+      <Filter>toyrobotsim\request</Filter>
+    </ClInclude>
+    <ClInclude Include="..\src\toyrobotsim\request\leftpayload.h">
+      <Filter>toyrobotsim\request</Filter>
+    </ClInclude>
+    <ClInclude Include="..\src\toyrobotsim\request\movepayload.h">
+      <Filter>toyrobotsim\request</Filter>
+    </ClInclude>
+    <ClInclude Include="..\src\toyrobotsim\request\placepayload.h">
+      <Filter>toyrobotsim\request</Filter>
+    </ClInclude>
+    <ClInclude Include="..\src\toyrobotsim\request\reportpayload.h">
+      <Filter>toyrobotsim\request</Filter>
+    </ClInclude>
+    <ClInclude Include="..\src\toyrobotsim\request\rightpayload.h">
+      <Filter>toyrobotsim\request</Filter>
+    </ClInclude>
+    <ClInclude Include="..\src\toyrobotsim\request\simpletokenizer.h">
+      <Filter>toyrobotsim\request</Filter>
+    </ClInclude>
+    <ClInclude Include="..\src\toyrobotsim\request\streamreader.h">
+      <Filter>toyrobotsim\request</Filter>
+    </ClInclude>
+    <ClInclude Include="..\src\toyrobotsim\request\unknownpayload.h">
+      <Filter>toyrobotsim\request</Filter>
+    </ClInclude>
+    <ClInclude Include="..\src\toyrobotsim\control\boardcontroller.h">
+      <Filter>toyrobotsim\control</Filter>
+    </ClInclude>
+    <ClInclude Include="..\src\toyrobotsim\control\reportingagent.h">
+      <Filter>toyrobotsim\control</Filter>
+    </ClInclude>
+    <ClInclude Include="..\src\toyrobotsim\model\board.h">
+      <Filter>toyrobotsim\model</Filter>
+    </ClInclude>
+    <ClInclude Include="..\src\toyrobotsim\model\toy.h">
+      <Filter>toyrobotsim\model</Filter>
+    </ClInclude>
+  </ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="..\src\toyrobotsim\request\simpletokenizer.cpp">
+      <Filter>toyrobotsim\request</Filter>
+    </ClCompile>
+    <ClCompile Include="..\src\toyrobotsim\request\streamreader.cpp">
+      <Filter>toyrobotsim\request</Filter>
+    </ClCompile>
+    <ClCompile Include="..\src\toyrobotsim\control\boardcontroller.cpp">
+      <Filter>toyrobotsim\control</Filter>
+    </ClCompile>
+    <ClCompile Include="..\src\toyrobotsim\control\reportingagent.cpp">
+      <Filter>toyrobotsim\control</Filter>
+    </ClCompile>
+    <ClCompile Include="..\src\toyrobotsim\model\board.cpp">
+      <Filter>toyrobotsim\model</Filter>
+    </ClCompile>
+  </ItemGroup>
+</Project>
