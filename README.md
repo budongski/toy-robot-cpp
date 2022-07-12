@@ -28,5 +28,11 @@ Input can be from a file, or from standard input, as the developer chooses.
 The toy robot must not fall off the table during movement. This also includes the initial placement of the toy robot. Any
 move that would cause the robot to fall must be ignored.
 
-### Compiled in VS 2019, C++ 17
+### Compiled in VS 2019, C++ 17.
+
+### Design
+ToyRobotSim class in the testapp project provides a high level view of the design and important components.
+
+https://github.com/budongski/toy-robot-cpp/blob/611c33968094a4c519b70c237244d3119c53c04a/src/toyrobotsim_testapp/toyrobotsim.cpp#L40-L137
+
 
