@@ -13,7 +13,7 @@
 namespace test
 {
 	struct Options {
-		enum SourceType {
+		enum class SourceType {
 			console,
 			file,
 			mem

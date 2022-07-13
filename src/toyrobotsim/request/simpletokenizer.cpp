@@ -44,9 +44,9 @@ namespace toyrobot
         } while (0);
 
         std::transform(tokens.id.begin(), tokens.id.end(), tokens.id.begin(), 
-                   [](unsigned char c){ return std::toupper(c); });
+                   [](unsigned char c){ return ::toupper(c); });
         std::transform(tokens.params.begin(), tokens.params.end(), tokens.params.begin(), 
-                   [](unsigned char c){ return std::toupper(c); });
+                   [](unsigned char c){ return ::toupper(c); });
 
         return tokens;
     }

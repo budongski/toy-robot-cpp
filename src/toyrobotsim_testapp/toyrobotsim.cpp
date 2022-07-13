@@ -19,17 +19,17 @@ namespace test
 	{
 		switch (mOptions.source)
 		{
-		case Options::file:
+		case Options::SourceType::file:
 			mSourceFile.open(mOptions.other);
 			if (mSourceFile.is_open())
 				return std::make_unique<StreamReader>(mSourceFile);
 			break;
-		case Options::mem:
+		case Options::SourceType::mem:
 			mSourceSS.str(mOptions.other);
 			if (mSourceSS.good())
 				return std::make_unique<StreamReader>(mSourceSS);
 			break;
-		case Options::console:
+		case Options::SourceType::console:
 		default:
 			return std::make_unique<StreamReader>(std::cin);
 			break;
