@@ -7,11 +7,7 @@ namespace toyrobot
 		: mRows(rows)
 		, mCols(cols)
 	{
-		mTiles.resize(mCols);
-		for (auto& row : mTiles)
-		{
-			row.resize(mRows);
-		}
+		mTiles.resize(rows, std::vector<ToyPtr>(cols, nullptr));
 	}
 
 	Board::~Board()
@@ -33,7 +29,7 @@ namespace toyrobot
 			auto oldpos = robot->mTransform;
 			robot->mTransform.set(transform);
 
-			updateTileContent(robot, oldpos, transform);
+			updateTileContent(oldpos, transform);
 		}
 		return BoardError::success;
 	}
@@ -47,7 +43,7 @@ namespace toyrobot
 			{
 				auto oldpos = robot->mTransform;
 				robot->mTransform.forward();
-				updateTileContent(robot, oldpos, robot->mTransform);
+				updateTileContent(oldpos, robot->mTransform);
 			}
 			else
 			{
@@ -83,20 +79,18 @@ namespace toyrobot
 		return BoardError::robot_does_not_exist;
 	}
 
-	Toy* Board::findRobot(int id) 
+	ToyPtr Board::findRobot(int id) 
 	{
 		if (auto iter = mRobots.find(id); iter != mRobots.end())
 			return iter->second;
 		return nullptr;
 	}
 
-	Toy* Board::spawnRobot(int id, const toyrobot::Transform4D& transform)
+	ToyPtr Board::spawnRobot(int id, const toyrobot::Transform4D& transform)
 	{
-		auto robot = new Toy(id, transform);
-		mRobots[id] = robot;
-
-		updateTileContent(robot, transform);
-		return robot;
+		mRobots[id] = std::make_shared<Toy>(id, transform);
+		updateTileContent(mRobots[id], transform);
+		return mRobots[id];
 	}
 
 	bool Board::isTilePassable(const toyrobot::Transform4D& transform) 
@@ -115,16 +109,13 @@ namespace toyrobot
 		return false;
 	}
 
-	void Board::updateTileContent(Toy* toy, const toyrobot::Transform4D& from, const toyrobot::Transform4D& to)
+	void Board::updateTileContent(const Transform4D& from, const Transform4D& to)
 	{
-		// remove from tile
-		mTiles[from.cell.x][from.cell.y] = nullptr;
-
-		// place in tile
-		mTiles[from.cell.x][from.cell.y] = toy;
+		if(mTiles[from.cell.x][from.cell.y] != nullptr)
+			mTiles[to.cell.x][to.cell.y] = std::move(mTiles[from.cell.x][from.cell.y]);
 	}
 
-	void Board::updateTileContent(Toy* toy, const toyrobot::Transform4D& to)
+	void Board::updateTileContent(ToyPtr toy, const Transform4D& to)
 	{
 		mTiles[to.cell.x][to.cell.y] = toy;
 	}

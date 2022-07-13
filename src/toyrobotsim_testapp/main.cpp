@@ -6,25 +6,29 @@ using namespace test;
 
 void usage()
 {
-	std::cout << "\ntestapp.exe T --> Run in Test mode. Fixed commands with expected behavior.";
-	std::cout << "\ntestapp.exe C --> Take commands from command line (5x5 board)";
-	std::cout << "\ntestapp.exe X Y [source]" <<
+	std::cout << "\ntestapp.exe --> Take commands from command line (5x5 board)";
+	std::cout << "\ntestapp.exe -t --> Run in Test mode. Fixed commands with expected behavior.";
+	std::cout << "\ntestapp.exe [source] X Y" <<
 		"\n\twhere" <<
+		"\n\tsource - filename in current directory, or command line if empty" 
 		"\n\tX - number of rows" <<
-		"\n\tY - number of columns" <<
-		"\n\tsource - filename in current directory, or command line if empty" << std::endl;
+		"\n\tY - number of columns" << std::endl;
+
 }
 
 bool readOptions(int argc, char* argv[], Options& options)
 {
+	bool validArgs = true;
 	try
 	{
-		if (argc == 2 && (argv[1][0] == 'C' || argv[1][0] == 'c'))
+		if (argc == 1)
 		{
 			options = { 5, 5, Options::SourceType::console, "", true };
 			std::cout << "\nWaiting for command.." << std::endl;
 		}
-		else if (argc == 2 && (argv[1][0] == 'T' || argv[1][0] == 't'))
+		else if (argc == 2 && 
+			(argv[1][0] == '-' || argv[1][0] == '/') &&
+			(argv[1][1] == 'T' || argv[1][1] == 't'))
 		{
 			// create input source from testdata
 			std::string source;
@@ -35,22 +39,25 @@ bool readOptions(int argc, char* argv[], Options& options)
 			options = { 5, 5, Options::SourceType::mem, source, true };
 			std::cout << "\nRunning tests.." << std::endl;
 		}
+		else if (argc == 4)
+		{
+			options.other = argv[1];	// filename
+			options.rows = std::stoi(argv[2]);
+			options.cols = std::stoi(argv[3]);
+			options.source = Options::SourceType::file;
+			options.verbose = true;
+		}
 		else
 		{
-			options.rows = argc > 1 ? std::stoi(argv[1]) : 5;
-			options.cols = argc > 2 ? std::stoi(argv[2]) : 5;
-			options.source = argc > 3 ? Options::file : Options::console;
-			options.other = argc > 3 ? argv[3] : "";
-			options.verbose = true;
+			validArgs = false;
 		}
 	}
 	catch (...)
 	{
-		std::cout << "\nInvalid options.";
-		return false;
+		validArgs = false;
 	}
 
-	return true;
+	return validArgs;
 }
 
 bool verify(const std::vector<std::string>& reports)
@@ -70,7 +77,7 @@ bool verify(const std::vector<std::string>& reports)
 	}
 	else
 	{
-		for (int i = 0; i < reports.size(); ++i)
+		for (size_t i = 0; i < reports.size(); ++i)
 		{
 			if (expectedResults[i].compare(reports[i]) != 0)
 			{
@@ -84,15 +91,17 @@ bool verify(const std::vector<std::string>& reports)
 		}
 	}
 
-	//bool result = std::equal(expectedResults.begin(), expectedResults.end(), reports.begin());
+	std::cout << "\n\n" << (result ? "TEST SUCCESS" : "TEST FAILED") << std::endl;
+
 	return result;
 }
 
 int main(int argc, char* argv[])
 {
 	Options options;
-	if ( (argc < 2) || !readOptions(argc, argv, options))
+	if (!readOptions(argc, argv, options))
 	{
+		std::cout << "\nInvalid options.\n";
 		usage();
 		return 0;
 	}
@@ -101,20 +110,18 @@ int main(int argc, char* argv[])
 	std::vector<std::string> reports;
 	auto result = sim.run(reports);
 
-
-	if (options.source == Options::SourceType::mem)
+	if (result == ResultCode::success)
 	{
-		if (verify(reports))
+		if (options.source == Options::SourceType::mem)
 		{
-			std::cout << "\n\nTEST SUCCESS" << std::endl;
+			verify(reports);
 		}
-		else
-		{ 
-			std::cout << "\n\nTEST FAILED" << std::endl;
-		}
-		
+	}
+	else
+	{
+		std::cout << "Error code: " << static_cast<int>(result) << std::endl;
 	}
 
-	return static_cast<int>(result);
+	return 0;
 }
 

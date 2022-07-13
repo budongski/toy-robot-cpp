@@ -5,10 +5,12 @@
 #include <vector>
 #include <map>
 #include <string>
-
+#include <memory>
 
 namespace toyrobot
 {
+	using ToyPtr = std::shared_ptr<Toy>;
+
 	enum class BoardError
 	{
 		success,
@@ -21,7 +23,7 @@ namespace toyrobot
 	public:
 		Board(int rows, int cols);
 		virtual ~Board();
-		BoardError placeRobot(int id, const toyrobot::Transform4D& transform);
+		BoardError placeRobot(int id, const Transform4D& transform);
 		BoardError forwardRobot(int id);
 		BoardError turnRobotLeft(int id);
 		BoardError turnRobotRight(int id);
@@ -29,14 +31,14 @@ namespace toyrobot
 		static std::string toString(BoardError err);
 
 	private:
-		Toy* findRobot(int id);
-		Toy* spawnRobot(int id, const toyrobot::Transform4D& to);
-		bool isTilePassable(const toyrobot::Transform4D& transform);
-		void updateTileContent(Toy* toy, const toyrobot::Transform4D& from, const toyrobot::Transform4D& to);
-		void updateTileContent(Toy* toy, const toyrobot::Transform4D& to);
+		ToyPtr findRobot(int id);
+		ToyPtr spawnRobot(int id, const Transform4D& to);
+		bool isTilePassable(const Transform4D& transform);
+		void updateTileContent(const Transform4D& from, const Transform4D& to);
+		void updateTileContent(ToyPtr toy, const Transform4D& to);
 
-		std::map<int, Toy*> mRobots;				// 
-		std::vector< std::vector <Toy*>> mTiles;	// contents of each square in the board
+		std::map<int, ToyPtr> mRobots;				// 
+		std::vector< std::vector <ToyPtr>> mTiles;	// contents of each square in the board
 		const int mRows;
 		const int mCols;
 	};

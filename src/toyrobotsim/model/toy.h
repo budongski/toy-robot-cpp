@@ -4,15 +4,14 @@
 
 namespace toyrobot
 {
-	class Toy /*: public toyrobot::Receiver */
+	class Toy
 	{
 	public:
-		explicit Toy();
 		Toy(int id, const toyrobot::Transform4D& transform) 
 			: mTransform(transform)
 		{
 		}
-		~Toy() {}
+		virtual ~Toy() = default;
 
 		toyrobot::Transform4D mTransform;
 	};
